@@ -19,22 +19,24 @@ with open ('recipes.txt', encoding = "utf-8") as file:
         file.readline()
         cook_book[name_dish] = products
 
-print(cook_book)
+#print(cook_book)
 
 def list_of_stores_with_ingredients(dishes, person_count):
-    list_products = []
+    list_products = { }
     for dish in dishes:
         if dish in cook_book:
           for ing in cook_book[dish]:
-            list_products.append({'ingredient': ing.get('ingredient'),
-                                  'measure': ing.get('measure'),
-                                  'quantity': int(ing.get('quantity')) * person_count})
-          print (list_products)
-
+              ing_name = ing.get('ingredient')
+              quantity = int(ing.get('quantity')) * person_count
+              measure = ing.get('measure')
+              if ing_name in list_products:
+                  quantity += list_products[ing_name]['quantity']
+              list_products[ing_name] = {'quantity':quantity, 'measure': measure}
         else:
             print (f'Блюда {dishes=} нет в книге рецептов')
+    print(list_products)
 
-list_of_stores_with_ingredients(['Омлет'], 4)
+list_of_stores_with_ingredients(['Омлет', 'Фахитос'], 4)
 
 
 
